@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<description>
+	  Configuration to JPA annotations by spring data JPA
+	</description>
+	
+<!-- JPA-Hibernate spring beans -->	
+	<bean id="dataSourceC3p0" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass"><value>${jdbc.driverClassName}</value></property>
+		<property name="jdbcUrl"><value>${jdbc.url}</value></property>
+		<property name="user"><value>${jdbc.username}</value></property>
+		<property name="password"><value>${jdbc.password}</value></property>
+		
+		<property name="acquireIncrement" value="${c3p0.acquire_increment}"/>
+		<property name="initialPoolSize" value="3"/>
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}"/> 
+		<property name="maxPoolSize" value="${c3p0.max_size}"/>
+		<property name="minPoolSize" value="${c3p0.min_size}"/>  
+		<property name="maxStatements" value="${c3p0.max_statements}"/> 
+		<property name="checkoutTimeout" value="${c3p0.checkoutTimeout}"/>
+		<property name="idleConnectionTestPeriod" value="0"/>        
+	</bean>
+	
+	<bean id="entityManager" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	    <property name="loadTimeWeaver">
+        	<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver"/>
+    	</property>
+	    <property name="jpaDialect">
+	        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+	    </property>
+        <property name="jpaVendorAdapter">
+        	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>	    
+        <property name="dataSource">
+            <ref bean="dataSourceC3p0"/>
+        </property>
+        <property name="packagesToScan" value="ru.service.gallery.entity"/>
+<!--    <property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property> -->
+     
+        <property name="jpaProperties">
+		    <props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.auto_close_session">${hibernate.auto_close_session}</prop>
+				<prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+				<prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+				<prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+				
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				<prop key="cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				
+			  	<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+			  	<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+			  	<prop key="hibernate.use_sql_comments">${hibernate.use_sql_comments}</prop>
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+			  	<prop key="hibernate.hbm2ddl.auto">update</prop>  	
+		    </props>
+        </property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+	    <property name="entityManagerFactory" ref="entityManager"></property>
+	</bean>
+	
+	<tx:annotation-driven mode="aspectj" proxy-target-class="true" />
+	
+	<jpa:repositories base-package="ru.service.gallery.dao"
+		entity-manager-factory-ref="entityManager" transaction-manager-ref="transactionManager"/>
+	
+<!-- 	<bean id="jpaTemplate" class="org.springframework.orm.jpa.JpaTemplate">
+	    <property name="entityManagerFactory" ref="entityManager"/>
+	</bean> -->
+	
+</beans>

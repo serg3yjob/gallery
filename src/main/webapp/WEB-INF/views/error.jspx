@@ -1,0 +1,7 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h2 class="commonText headerPage emphasisMsg">Возникли некоторые проблемы. Ваш запрос необработан.</h2>
+</div>

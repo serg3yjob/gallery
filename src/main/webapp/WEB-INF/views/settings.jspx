@@ -1,0 +1,37 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	
+	<spring:url value="/pages/changeemail" var="changeemailPageUrl"/>	
+	<spring:url value="/pages/changepassword" var="changepasswordPageUrl"/>
+	<spring:url value="/pages/settings/avatar" var="avatarUrl"/>
+	<h2 class="commonText headerPage">Настройки</h2>
+	<c:if test="${not empty msgSuccessChangePsw}">
+		<h2 class="emphasisMsg commonText headerPage">${msgSuccessChangePsw}</h2>
+	</c:if>
+	<c:if test="${not empty msgSuccessChangeEmail}">
+		<h2 class="emphasisMsg commonText headerPage">${msgSuccessChangeEmail}</h2>
+	</c:if>	
+	<form id="privateUserSettings" action="${avatarUrl}" method="post" enctype="multipart/form-data">
+		<div id="settingsImageAvatarDiv">
+			<label id="settingsAvataLabel" for="settingsAvatarFile" title="Щелкните чтобы изменить аватар">
+				<img id="settingsImageAvatar" src="${avatarUrl}"/>
+			</label>
+			<a href="${changeemailPageUrl}">
+				<div class="commonText userSettingsChangeEmail">Изменить e-mail</div>
+			</a>
+			<a href="${changepasswordPageUrl}">
+				<div class="commonText userSettingsChangePassword">Изменить пароль</div>
+			</a>						
+		</div>
+		<div id="contentSettings">
+			<div class="wrapperLineUserSettingsForm commonText"><label class="labelUserSettings">Ваше имя:</label><label class="labelInfoUserSettings"><c:out value="${userApp.userName}" /></label></div>
+			<div class="wrapperLineUserSettingsForm  commonText"><label class="labelUserSettings">Почта:</label><label class="labelInfoUserSettings"><c:out value="${userApp.userInfo.email}" />	</label></div>
+			<div class="wrapperLineUserSettingsForm  commonText"><label class="labelUserSettings">Дата регистрации:</label><label class="labelInfoUserSettings"><fmt:formatDate  value="${userApp.regDate}" pattern="${patternDate}" var="regDate"/>${regDate}</label></div>				
+		</div>
+		<input id="settingsAvatarFile" name="fileAvatar" type="file" />
+	</form>
+</div>	

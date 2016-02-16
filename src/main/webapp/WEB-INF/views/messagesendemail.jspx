@@ -1,0 +1,6 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags">
+	<h2 class="commonText headerPage emphasisMsg">На ваш адрес электронной почты отправлено письмо. Для продолжения перейдите по ссылке из письма</h2>
+</div>

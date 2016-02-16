@@ -1,0 +1,60 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<spring:url value="/pages/administrate" var="administrateUrl"/>
+	<spring:url value="/avatar" var="avatarUrl"/>
+	<spring:url value="/listusernames" var="autocompliteActionUrl"/>
+	<h2 class="commonText headerPage">Список пользователей</h2>
+	<div id="serchAdminUser">
+		<form action="${administrateUrl}" method="get" style="position: relative;">
+			<input id="serchAdminUserInput" name="userNameBySerch" data-autocomplite-action="${autocompliteActionUrl}" placeholder="Начните вводить имя пользователя для поиска" autofocus="autofocus"/>
+			<img id="serchAdminUserBtn" src="../img/viewmag.png" title="Поиск пользователей" />
+		</form>
+	</div>
+	<div id="resultListAdminUserSerch">
+		<div class="itemResultAdminUserList headerResultAdminUserList itemResultAdminUserListAvatar  commonText">
+			Пользователь
+		</div>
+		<div class="itemResultAdminUserList headerResultAdminUserList itemResultAdminUserListDate  commonText">
+			Дата регистрации
+		</div>
+		<div class="itemResultAdminUserList headerResultAdminUserList itemResultAdminUserListIsActivated  commonText">
+			Активирован
+		</div>
+		<div class="itemResultAdminUserList headerResultAdminUserList itemResultAdminUserListIsBlocked  commonText">
+			Блокирование
+		</div>
+		<c:forEach items="${users}" var="user">
+			<div class="itemResultAdminUserList itemResultAdminUserListAvatar">
+				<h4 class="commonText titleAdminUserAvatar">${user.userName}</h4>
+				<img class="userAvatarAdminPage" src="${avatarUrl}/${user.userInfo.userInfoId}"/>
+			</div>
+			<div class="itemResultAdminUserList itemResultAdminUserListDate  commonText">
+				<fmt:formatDate  value="${user.regDate}" pattern="${patternDate}" var="regDate"/>${regDate}
+			</div>
+			<div class="itemResultAdminUserList itemResultAdminUserListIsActivated">
+				<c:choose>
+					<c:when test="${user.enabled}">
+						<a href="${administrateUrl}?activate=false&#38;userAppId=${user.userAppId}"><img class="listButnAdminPage" src="../img/buttonOk.png" title="Деактивировать"/></a>
+					</c:when>
+					<c:otherwise>
+						<a href="${administrateUrl}?activate=true&#38;userAppId=${user.userAppId}"><img class="listButnAdminPage" src="../img/buttonCross.png" title="Активировать"/></a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="itemResultAdminUserList itemResultAdminUserListIsBlocked">
+				<c:choose>
+					<c:when test="${not user.blocked}">
+						<a href="${administrateUrl}?block=true&#38;userAppId=${user.userAppId}"><img class="listButnAdminPage" src="../img/buttonOk.png" title="Заблокировать"/></a>
+					</c:when>
+					<c:otherwise>
+						<a href="${administrateUrl}?block=false&#38;userAppId=${user.userAppId}"><img class="listButnAdminPage" src="../img/buttonCross.png" title="Разблокировать"/></a>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</c:forEach>												
+	</div>
+</div>

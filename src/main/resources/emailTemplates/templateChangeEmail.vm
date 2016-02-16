@@ -1,0 +1,13 @@
+<html>
+	<body>
+		<h3>Здравствуйте, ${user}.</h3>
+		<div>
+		   Вы запросили смену вашего email-адреса на ${email}.
+		</div>
+		<h3>Для смены email-адреса, пожалуйста, перейдите по ссылке ниже</h3>
+	
+		<br/><br/>
+		<div>Ссылка для смены email-адреса: </div>
+		<div><a href="${changeEmailLink}">${changeEmailLink}</a></div>
+	</body>
+</html>

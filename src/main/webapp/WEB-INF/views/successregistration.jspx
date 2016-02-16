@@ -1,0 +1,7 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<h2 class="commonText headerPage emphasisMsg">Вы успешно зарегистрированны, на странице "Мой альбом вы можите добавить ваши изображения". Авторизуйтесь используя свой логин и пароль.</h2>
+</div>

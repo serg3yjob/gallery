@@ -1,0 +1,19 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">	
+	<h2 class="commonText headerPage">Изменение e-mail</h2>
+	<c:if test="${not empty emailFoundMsg}">
+		<h2 class="emphasisMsg commonText headerPage">${emailFoundMsg}</h2>
+	</c:if>
+	<div id="wrapperChangeEmailForm">
+		<form class="commonText" id="settingsChangeEmailForm" action="" method="post" enctype="application/x-www-form-urlencoded">
+			<fieldset>
+				<em class="errorMessage" data-for="email"><jsp:text/></em>
+				<div class="wrapperLineForm"><label><span class="reqStar">* </span>Новый e-mail:</label><input name="email" placeholder="Введите новый email"/></div>							
+			</fieldset>
+			<div id="settingsChangeEmaildBtn" class="commontText userSettingsChangeEmail">Изменить e-mail</div>
+		</form>
+	</div>
+</div>

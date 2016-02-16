@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" >
+		<property name="host" value="smtp.mail.ru" />
+		<property name="port" value="465" /><!-- 587 -->
+		<property name="username" value="a.sh.s_reg@mail.ru" />
+		<property name="password" value="Bd7ee2fa13" />
+		<property name="javaMailProperties">
+		   <props>
+	       	      <prop key="mail.smtp.auth">true</prop>
+	       	      <prop key="mail.smtp.ssl.enable">true</prop>
+	       	   </props>
+		</property>	  
+	</bean>
+	<!-- this is a template message that we can pre-load with default state -->
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+	  <property name="from" value="restorePsw@contact.service.com"/>
+	  <property name="subject" value="Restore password to contact.service.gallery"/>
+	</bean>
+	
+	<bean id="mailSendService" class="ru.service.gallery.service.MailSendServiceImpl">
+	  <property name="mailSender" ref="mailSender"/>
+	  <property name="templateMessage" ref="templateMessage"/>
+	  <property name="velocityEngine" ref="velocityEngine"/>
+	</bean>
+	
+	<bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="resourceLoaderPath" value="classpath:/"/>
+		<property name="preferFileSystemAccess" value="false"/>
+	</bean>	
+	
+</beans>

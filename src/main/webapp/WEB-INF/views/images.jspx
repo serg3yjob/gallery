@@ -1,0 +1,118 @@
+<div 	xmlns:jsp="http://java.sun.com/JSP/Page"
+		xmlns:spring="http://www.springframework.org/tags"
+		xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+		xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		<spring:url value="/pages/images" var="gridImgUrl"/>
+		<spring:url value="/images" var="imgUrl"/>
+		<spring:url value="/pages/userprofile" var="userprofileUrl"/>
+		<spring:url value="/pages/albom" var="albomPageUrl"/>
+	<div id="tableWrapper">
+		<c:forEach items="${gridHolder.images}" var="image" varStatus="status">
+			<c:set value="${image.userInfo.userInfoId}" var="idUserInfo"/>
+			<c:set value="${image.title}" var="imgTitle"/>
+			<div class="itemWrapper commonText">
+				<i class="downloadData" title="Дата загрузки"><fmt:formatDate  value="${image.dateUpload}" pattern="dd.MM.yyyy" var="dateUpload"/>${dateUpload} - </i>
+				<a href="${userprofileUrl}/${idUserInfo}" title="Перейти к профелю пользователя">
+					<i class="itemUserName">${image.userInfo.userApp.userName}</i>
+				</a><br/>
+				<a href="${imgUrl}/${image.imageId}" data-lightbox="image-${status.count}" data-title="${imgTitle}">
+					<div class="itemWrapperImg"><jsp:text/>
+						<img src="${imgUrl}/${image.imageId}"/>
+					</div>
+				</a>
+				<a href="${albomPageUrl}?userId=${idUserInfo}" title="Перейти к альбому">
+					<i><c:choose>
+							<c:when test="${empty imgTitle}">
+								К альбому
+							</c:when>
+							<c:otherwise>
+								<c:out value="${fn:substring(imgTitle, 0, 20)}"/>
+							</c:otherwise>
+						</c:choose>
+					</i>
+				</a>
+			</div>
+		</c:forEach>
+		<div class="clear"><jsp:text/></div>
+		<div class="simpleWrapper">
+			<div id="wrapperImagesPaginator">
+				<ul id="imagesPaginator" class="commonText">
+					<c:choose>
+						<c:when test="${gridHolder.blockedFirst}">
+							<c:set value="blockedImgPgItem" var="blokedCSS"/>
+						</c:when>
+						<c:otherwise>
+							<c:set value="" var="blokedCSS"/>
+						</c:otherwise>
+					</c:choose>
+					<li>
+						<a class="${blokedCSS}" href="${gridImgUrl}?button=FIRST&#38;numberPage=${gridHolder.firstPage}">&lt;&lt;</a>
+					</li>
+					<li>
+						<a class="${blokedCSS}" href="${gridImgUrl}?button=PREVIOUS&#38;numberPage=${gridHolder.prevPage}">&lt;</a>
+					</li>
+					<li>
+						<c:choose>
+							<c:when test="${gridHolder.activeLleftDigit}">
+								<c:set value="activeImgPgItem" var="activeCSS"/>
+							</c:when>
+							<c:otherwise>
+								<c:set value="" var="activeCSS"/>
+							</c:otherwise>
+						</c:choose>
+						<a class="${activeCSS}" href="${gridImgUrl}?button=LEFT&#38;numberPage=${gridHolder.leftDigit}">${gridHolder.leftDigit}</a>
+					</li>
+					<li>
+						<c:if test="${gridHolder.presentsMiddleDigit}">
+							<c:choose>
+								<c:when test="${gridHolder.activeMiddleDigit}">
+									<c:set value="activeImgPgItem" var="activeCSS"/>
+								</c:when>
+								<c:otherwise>
+									<c:set value="" var="activeCSS"/>
+								</c:otherwise>
+							</c:choose>					
+							<a class="${activeCSS}" href="${gridImgUrl}?button=MIDDLE&#38;numberPage=${gridHolder.middleDigit}">${gridHolder.middleDigit}</a>
+						</c:if>
+					</li>
+					<li>
+						<c:if test="${gridHolder.presentsRightDigit}">
+							<c:choose>
+								<c:when test="${gridHolder.activeRightDigit}">
+									<c:set value="activeImgPgItem" var="activeCSS"/>
+								</c:when>
+								<c:otherwise>
+									<c:set value="" var="activeCSS"/>
+								</c:otherwise>
+							</c:choose>							
+							<a class="${activeCSS}" href="${gridImgUrl}?button=RIGHT&#38;numberPage=${gridHolder.rightDigit}">${gridHolder.rightDigit}</a>
+						</c:if>
+					</li>
+					<li>
+						<c:choose>
+							<c:when test="${gridHolder.blockedLast}">
+								<c:set value="blockedImgPgItem" var="blokedCSS"/>
+							</c:when>
+							<c:otherwise>
+								<c:set value="" var="blokedCSS"/>
+							</c:otherwise>
+						</c:choose>					
+						<a class="${blokedCSS}" href="${gridImgUrl}?button=NEXT&#38;numberPage=${gridHolder.nextPage}">&gt;</a>
+					</li>
+					<li>
+						<c:choose>
+							<c:when test="${gridHolder.blockedLast}">
+								<c:set value="blockedImgPgItem" var="blokedCSS"/>
+							</c:when>
+							<c:otherwise>
+								<c:set value="" var="blokedCSS"/>
+							</c:otherwise>
+						</c:choose>							
+						<a class="${blokedCSS}" href="${gridImgUrl}?button=LAST&#38;numberPage=${gridHolder.lastPage}">&gt;&gt;</a>
+					</li>																													
+				</ul>
+			</div>
+		</div>
+	</div>																						
+</div>

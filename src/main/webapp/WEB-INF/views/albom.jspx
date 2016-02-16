@@ -1,0 +1,133 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<spring:url value="/albom/upload" var="uploadImgUrl"/>
+	<spring:url value="/albom/image" var="albomImgUrl"/>
+	<spring:url value="/pages/albom" var="albomPageUrl"/>
+	<spring:url value="/albom/mark" var="markUrl"/>
+	<spring:url value="/albom/follow" var="followUrl"/>
+	<spring:url value="/albom/comment" var="commentUrl"/>
+	<spring:url value="/albom/attach" var="attachUrl"/>
+	<c:choose>
+		<c:when test="${albomHolder.idUserOwner == albomHolder.idUserGuest}">
+			<div id="wrapperAddImage">
+				<div class="itemAddImage commonText">Добавить изображения</div>
+				<form:form modelAttribute="uploadImages" class="itemAddImage" action="${uploadImgUrl}" id="addImageForm" type="post" enctype="multipart/form-data">
+					<label for="imgFiles" class="addFileBtn" title="Добавить файл"></label>
+					<form:input id="imgFiles" type="file" path="images" multiple="multiple"/>						
+				</form:form>
+			</div>
+		</c:when>
+		<c:otherwise>
+			<h2 class="commonText headerPage">Альбом пользователя ${albomHolder.nameUserOwner}</h2>
+		</c:otherwise>
+	</c:choose>
+	<div class="clear"><jsp:text/></div>
+	<c:choose>
+		<c:when test="${albomHolder.emptyAlbom}">
+			<div id="wrapperEptyAlbom">
+				<p id="emptyAlbomLabel" class="commonText">В альбоме пользователя ${albomHolder.nameUserOwner} нет изображений</p>
+			</div>
+		</c:when>
+		<c:otherwise>
+			<h2 id="titleImg" class="commonText">${albomHolder.titleImage}</h2>
+			<div div="albomWrapper">
+				<div id="slider">
+					<a href="${albomPageUrl}?userId=${albomHolder.idUserOwner}&#38;numberPage=${albomHolder.numberPreviousPage}">
+						<div id="leftArrow" class="itemSlider"><jsp:text/></div>
+					</a>
+					<div id="image" class="itemSlider">
+						<a  href="${albomImgUrl}/${albomHolder.imageId}" data-lightbox="image-1" data-title="${albomHolder.titleImage}">
+							<img src="${albomImgUrl}/${albomHolder.imageId}" title="${albomHolder.titleImage}" alt="${albomHolder.titleImage}" />
+						</a>
+					</div>
+					<a href="${albomPageUrl}?userId=${albomHolder.idUserOwner}&#38;numberPage=${albomHolder.numberNextPage}">
+						<div id="rightArrow" class="itemSlider"><jsp:text/></div>
+					</a>
+				</div>
+				<div class="clear"><jsp:text/></div>
+				<div id="followBlock" class="commonText">
+					<div class="itemFollowBlock"><i id="totallMarkLabel">Суммарная оценка:</i></div>
+					<div class="itemFollowBlock"><i id="totallMark">${albomHolder.totalMark}</i></div> 
+					<div class="itemFollowBlock" id="marked"  data-url="${markUrl}" data-idUserOwner="${albomHolder.idUserOwner}" data-idUserGuest="${albomHolder.idUserGuest}" data-imageId="${albomHolder.imageId}">+5</div>
+					<div class="itemFollowBlock"><jsp:text/>
+ 						<c:choose>
+							<c:when test="${albomHolder.idUserOwner == albomHolder.idUserGuest}">
+								<div id="setTitleImgAlbom" class="userSettingsRestore">Подписать изображение</div>
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${albomHolder.followUserGuest}">
+										<div id="labelFollow">Вы подписаны на обновления этого альбома</div>
+									</c:when>
+									<c:otherwise>
+										<div id="followAlbom" class="userSettingsRestore" data-url="${followUrl}" data-idUserOwner="${albomHolder.idUserOwner}" data-idUserGuest="${albomHolder.idUserGuest}"> Подписаться на обновления альбома</div>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div id="setTitleDialog" title="Введите описание изображения">
+						<form id="setTitleImgForm" action="${albomPageUrl}" method="get">
+							<input class="addingText commonText" name="titleImage" id="titleImage" placeholder="Введите описание изображения"/>
+							<input type="hidden" value="${albomHolder.idUserOwner}" name="userId"/>
+							<input type="hidden" value="${albomHolder.numberPage}" name="numberPage"/>
+							<input type="hidden" value="${albomHolder.imageId}" name="imgId"/>
+						</form>
+					</div>
+				</div>
+				<div id="commentBlock">
+					<div id="addComment">
+						<form class="addCommentForm" id="addCommentForm" data-idUserOwner="${albomHolder.idUserOwner}" data-idUserGuest="${albomHolder.idUserGuest}" data-numberPage="${albomHolder.numberPage}" data-img-for-comment-file="../img/attachment.png" action="${commentUrl}" method="post" enctype="multipart/form-data">
+							<textarea name="comment" class="addingText commonText" placeholder="Введите комментарий" rows="4"><jsp:text/></textarea><br/>
+							<div class="sendCommentBtn commonText itemLineBtnCommentForm">Добавить комментарий</div>
+							<label for="commentFile" class="addFileBtn itemLineBtnCommentForm" title="Добавить файл"><jsp:text/></label>
+							<input id="commentFile" class="commentFile" type="file" name="commentFile" />
+							<input name="userId" type="hidden" value="${albomHolder.idUserOwner}"/>
+							<input name="userGuestId" type="hidden" value="${albomHolder.idUserGuest}"/>
+							<input name="numberPage" type="hidden" value="${albomHolder.numberPage}"/>
+							<input type="hidden" name="imageId" value="${albomHolder.imageId}"/>
+						</form>
+					</div>
+					<div class="clear"><jsp:text/></div>
+					<div id="commentsWrapper">
+						<c:choose>
+							<c:when test="${albomHolder.commentsHolder.emptyComment}">
+								<div id="wrapperEptyComment">
+									<p id="emptyCommentLabel" class="commonText">К этому изображению комментарии отсутсвуют</p>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<c:forEach items="${albomHolder.commentsHolder.comments}" var="comment">
+									<div class="commentWrapper" style="margin-left: ${comment.layer*40}px">
+										<div class="hederComment commonText">
+											<div class="coommentUser"><fmt:formatDate  value="${comment.date}" pattern="${patternDate}" var="date"/>${date} - ${comment.userName}</div>
+											<c:if test="${comment.existAttach}">
+												<div class="commentAttachment">
+													<a href="${attachUrl}/${comment.attachId}" title="Доступно вложение" >
+														<img src="../img/attachment.png" />
+													</a>
+												</div>
+											</c:if>
+										</div>
+										<div class="comment commonText">
+											<div class="contentComment">${comment.text}</div>
+											<div class="answerCommentBtn" data-comment-id="${comment.id}">Ответить</div>
+										</div>
+									</div>
+								</c:forEach>	
+							</c:otherwise>
+						</c:choose>																									
+					</div>
+				</div>
+				<div id="confirmDeleteFile" title="Удаление вложенного файла" style="display: none">
+					<p class="commonText">Удалить вложенный файл?</p>
+				</div>
+			</div><jsp:text/>
+		</c:otherwise>
+	</c:choose>
+</div>	

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+      
+
+
+<!--Additional filter chain for normal users, matching all other requests -->
+    <http  pattern="/**"   use-expressions="true" ><!-- auto-config="true" disable-url-rewriting="false"-->
+    	<intercept-url pattern="/scripts/**" access="permitAll"/>
+    	<intercept-url pattern="/styles/**" access="permitAll"/>
+        <intercept-url pattern="/img/**" access="permitAll"/>
+        <intercept-url pattern="/" access="permitAll"/>
+        <intercept-url pattern="/j_spring_security_check" access="permitAll" />
+        <intercept-url pattern="/pages/images/**"  access="permitAll"/>
+        <intercept-url pattern="/images/**"  access="permitAll"/>
+        <intercept-url pattern="/pages/error" access="permitAll"/>
+        <intercept-url pattern="/pages/registrate/**" access="permitAll"/>
+        <intercept-url pattern="/pages/restorepassword/**" access="permitAll"/>
+        <intercept-url pattern="/pages/changepasswordrestore/**" access="permitAll"/>
+        <intercept-url pattern="/pages/changepassword/**" access="permitAll"/>
+        <intercept-url pattern="/pages/restorepasswordsuccess" access="permitAll"/>
+        <intercept-url pattern="/pages/restorepasswordnotifymsg" access="permitAll"/>
+         <intercept-url pattern="/pages/accessdenied" access="permitAll"/>
+        <intercept-url pattern="/avatar/**" access="permitAll"/>
+        <intercept-url pattern="/pages/administrate/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/pages/**" access="hasAnyRole('USER','ADMIN')"/>
+        <intercept-url pattern="/albom/**" access="hasAnyRole('USER','ADMIN')"/>
+        <intercept-url pattern="/j_spring_security_logout" access="isAuthenticated()"/>
+        <intercept-url pattern="/**" access="denyAll" />
+        <anonymous username="guest" granted-authority="ROLE_GUEST" />
+
+        <csrf disabled="true"/>
+        <form-login 
+	        login-page="/" 
+	        authentication-failure-url="/pages/images?loginerror=true" 
+	        default-target-url="/" 
+	        login-processing-url="/j_spring_security_check"
+	        always-use-default-target="true"
+	        username-parameter="userName"
+	        password-parameter="userPassword"
+ 		/>
+        <logout logout-url="/j_spring_security_logout"  logout-success-url="/"/>
+		<access-denied-handler error-page="/pages/accessdenied"/>
+		<remember-me/>    
+    </http>
+	    
+	    <beans:bean id="failureAuthenticationHandler" 
+	    class="ru.service.gallery.appsuport.exception.FailureAuthenticationHandler"/>
+	    
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService">
+        	<password-encoder hash="sha-256">
+        		<!-- <salt-source user-property="userName"/> -->
+        	</password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+    
+<!--     <beans:bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+		  <beans:property name="providers">
+		    <beans:list>
+		      <beans:ref local="daoAuthenticationProvider"/>
+		    </beans:list>
+		  </beans:property>
+	</beans:bean>
+    
+    <beans:bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+  		<beans:property name="userDetailsService" ref="userDetailsService"/>
+  		<beans:property name="passwordEncoder" ref="passwordEncoder"/>
+	</beans:bean> -->
+    
+    <beans:bean id="userDetailsService" class="ru.service.gallery.service.UserDetailsServiceImpl">
+
+    </beans:bean>
+
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+	    <beans:constructor-arg ref="roleHierarchy" />
+	</beans:bean>
+	
+ 	<beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+	    <beans:property name="hierarchy">
+	        <beans:value>
+	            ROLE_ADMIN > ROLE_USER
+	            ROLE_USER > ROLE_GUEST
+	        </beans:value>
+	    </beans:property>
+	</beans:bean>
+
+<!--  <beans:bean id = "methodSecurityExpressionHandler" 
+    class = "org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler">
+    <beans:property name = "roleHierarchy" ref="roleHierarchy"/>
+</beans:bean>
+
+	<beans:bean id="defaultWebSecurityExpressionHandler"
+	      class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler">
+	      <beans:property name="roleHierarchy" ref="roleHierarchy"/>
+	</beans:bean>
+	
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+	    <beans:property name="decisionVoters">
+	        <beans:list>
+	            <beans:ref bean="roleVoter" />
+	            <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter">
+	                <beans:property name="expressionHandler" ref="defaultWebSecurityExpressionHandler"/>
+	            </beans:bean>
+	        </beans:list>
+	    </beans:property>
+	</beans:bean> -->
+</beans:beans>

@@ -1,0 +1,20 @@
+<div 	class="header"
+		xmlns:jsp="http://java.sun.com/JSP/Page"
+		xmlns:spring="http://www.springframework.org/tags"
+		xmlns:sec="http://www.springframework.org/security/tags">
+		<spring:url value="/j_spring_security_logout" var="logoutUrl"/>
+		<spring:url value="/" var="imagesPageUrl"/>
+	<a class="commonText" href="${imagesPageUrl}">Галерея</a>
+	<div id="autorize">
+		<ul class="commonText">
+			<sec:authorize access="isAnonymous()">
+				<li id="sign-in">Вход | </li>
+				<li id="sign-up">Регистрация</li>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<li id="welcomeLabel">Привет ${pageContext.request.userPrincipal.name} | </li>
+				<li><a id="logoutLink" class="commonText" href="${logoutUrl}">Выйти</a></li>
+			</sec:authorize>
+		</ul>
+	</div>
+</div>

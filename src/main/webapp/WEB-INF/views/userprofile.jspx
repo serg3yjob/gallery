@@ -1,0 +1,21 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<spring:url value="/avatar" var="avatarUrl"/>
+	<h2 class="commonText headerPage">Профиль пользователя <c:out value="${userAppByUserProfile.userName}" /></h2>
+	<form id="privateUserSettings" action="" method="post" enctype="multipart/form-data">
+		<div id="settingsImageAvatarDiv">
+			<label id="settingsAvataLabel" class="noCursorUserProfile">
+				<img id="settingsImageAvatar" src="${avatarUrl}/${userAppByUserProfile.userInfo.userInfoId}"/>
+			</label>					
+		</div>
+		<div id="contentSettings">
+			<div class="wrapperLineUserSettingsForm commonText"><label class="labelUserSettings">Имя:</label><label class="labelInfoUserSettings"><c:out value="${userAppByUserProfile.userName}" /></label></div>
+			<div class="wrapperLineUserSettingsForm  commonText"><label class="labelUserSettings">Почта:</label><label class="labelInfoUserSettings"><c:out value="${userAppByUserProfile.userInfo.email}" /></label></div>
+			<div class="wrapperLineUserSettingsForm  commonText"><label class="labelUserSettings">Дата регистрации:</label><label class="labelInfoUserSettings"><fmt:formatDate  value="${userAppByUserProfile.regDate}" pattern="${patternDate}" var="regDate"/>${regDate}</label></div>						
+		</div>
+	</form>
+</div>

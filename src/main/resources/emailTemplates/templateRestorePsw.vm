@@ -1,0 +1,12 @@
+<html>
+	<body>
+		<h3>Здравствуйте, ${user.userApp.userName}. Вы запросили восстановление пароля</h3>
+	
+		<div>
+		   Ваш email-адрес ${user.email}
+		</div>
+		<br/><br/>
+		<div><h3>Для того чтобы задать новый пароль перейдити пожалуйста по ссылке ниже</h3></div>
+		<div><a href="${restoreLink}">${restoreLink}</a></div>
+	</body>
+</html>

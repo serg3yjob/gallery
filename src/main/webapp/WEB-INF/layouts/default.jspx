@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+
+<html 
+xmlns:jsp="http://java.sun.com/JSP/Page"
+xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+xmlns:tiles="http://tiles.apache.org/tags-tiles"
+xmlns:spring="http://www.springframework.org/tags"
+xmlns:form="http://www.springframework.org/tags/form"
+version="2.0" >
+
+<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat"/>
+<jsp:directive.page contentType="text/html; charset=UTF-8" />
+<jsp:directive.page pageEncoding="UTF-8" />
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<spring:url value="/scripts/jquery-2.2.0.js" var="jqueryCoreUrl"/>
+		<script type="text/javascript" src="${jqueryCoreUrl}"><jsp:text/></script>
+		<spring:url value="/scripts/jquery.toastmessage.js" var="toastmessageJsUrl"/>
+		<script type="text/javascript" src="${toastmessageJsUrl}"><jsp:text/></script>
+		<spring:url value="/styles/jquery.toastmessage.css" var="toastmessageCssUrl"/>
+		<link rel="stylesheet" type="text/css" href="${toastmessageCssUrl}"/>
+		<spring:url value="/scripts/jquery-ui.js" var="jqueryUiUrl"/>
+		<script type="text/javascript" src="${jqueryUiUrl}"><jsp:text/></script>
+		<spring:url value="/scripts/jquery-ui.css" var="jqueryUiCssUrl"/>
+		<link rel="stylesheet" type="text/css" href="${jqueryUiCssUrl}"/>
+		<spring:url value="/scripts/jquery-ui.structure.css" var="jqueryUiStructureCssUrl"/>
+		<link rel="stylesheet" type="text/css" href="${jqueryUiStructureCssUrl}"/>
+		<spring:url value="/scripts/jquery-ui.theme.css" var="jqueryUiThemeCssUrl"/>
+		<link rel="stylesheet" type="text/css" href="${jqueryUiThemeCssUrl}"/>
+		<spring:url value="/scripts/jquery.validate.js" var="jqueryValidateUrl"/>
+		<script type="text/javascript" src="${jqueryValidateUrl}"><jsp:text/></script>
+		<!-- lightbox подключается пере закрывающим тегом body -->
+		<spring:url value="/scripts/lightbox.js" var="lightboxJsUrl"/>
+		<spring:url value="/styles/lightbox.css" var="lightboxCssUrl"/>
+		<link rel="stylesheet" type="text/css" href="${lightboxCssUrl}"/>
+		<spring:url value="/scripts/project.js" var="projectJsUrl"/>	
+		<script type="text/javascript" src="${projectJsUrl}"><jsp:text/></script>
+		<spring:url value="/styles/default.css" var="defaultCssUrl"/>
+		<link rel="stylesheet" type="text/css" href="${defaultCssUrl}"/>
+
+		<c:set var="userLocale">
+			 <c:set var="plocale">${pageContext.response.locale}</c:set>
+			 <c:out value="${fn:replace(plocale, '_', '-')}" default="ru" />
+		</c:set>
+		<c:url value="/j_spring_security_check" var="handlerLogin" />
+		<spring:url value="/pages/registrate" var="handlerRegistration"/>
+		<spring:url value="/pages/restorepassword" var="restorepasswordPageUrl"/>
+		<spring:message code="patterns.date" var="patternDate" scope="request"/>	
+		<title>Галерея</title>
+	</head>
+	<body>
+		<div class="layout">
+				<tiles:insertAttribute name="header" ignore="false" />
+			<div class="sidebar">
+				<div class="containerColumn">
+					<tiles:insertAttribute name="menu" ignore="false" />
+				</div>
+			</div>
+			<div class="content">
+				<div class="containerColumn">
+					<tiles:insertAttribute name="content" ignore="true" />
+				</div>
+			</div>
+			<div class="clear"><jsp:text/></div>
+			<tiles:insertAttribute name="footer" ignore="false" />
+		</div>
+	<div id="wrapperSignUpForm" title="Регистрация">
+		<form:form commandName="userRegistration" class="commonText" id="signUpForm" action="${handlerRegistration}" method="post" enctype="application/x-www-form-urlencoded" data-regerror="${regerror}">
+			<fieldset>
+				<em class="errorMessage" data-for="userName"><jsp:text/> <form:errors path="userName"/> </em>
+				<div class="wrapperLineForm"><label><span class="reqStar">* </span>Ваше имя:</label><form:input path="userName" name="userName" placeholder="Введите ваше имя" maxlength="14" /></div>
+				<em class="errorMessage" data-for="email"><jsp:text/> <form:errors path="email"/></em>
+				<div class="wrapperLineForm"><label><span class="reqStar">* </span>Почта:</label><form:input path="email" name="email" placeholder="Введите адрес вашей почты"/></div>
+				<em class="errorMessage" data-for="userPassword"><jsp:text/> <form:errors path="userPassword"/></em>
+				<div class="wrapperLineForm"><label><span class="reqStar">* </span>Пароль:</label><form:input path="userPassword" id="userPassword" name="userPassword" type="password" placeholder="Введите пароль"/></div>
+				<em class="errorMessage" data-for="userRetryPassword"><jsp:text/> <form:errors path="passwordEqualToRetryPassword"/></em>
+				<div class="wrapperLineForm"><label><span class="reqStar">* </span>Подтверждение пароля:</label><form:input path="userRetryPassword" name="userRetryPassword" type="password" placeholder="Введите пароль"/></div>
+			</fieldset>
+			<button id="signUpButton" type="submit">Зарегистрироваться</button><button id="signUpCancelButton" type="button">Отмена</button>
+		</form:form>
+	</div>
+	<div id="wrapperSignInForm" title="Вход">
+		<form class="commonText" id="signInForm" action="${handlerLogin}" method="post" enctype="application/x-www-form-urlencoded" data-loginerror="${loginerror}">
+			<fieldset>
+				<em class="errorMessage" data-for="userName"><c:if test="${loginerror}"><jsp:text>${msgLoginError}</jsp:text></c:if></em>
+				<div class="wrapperLineForm"><label>Ваше имя:</label><input name="userName" placeholder="Введите ваше имя" maxlength="14" /></div>
+				<em class="errorMessage" data-for="userPassword"><jsp:text/></em>
+				<div class="wrapperLineForm"><label>Пароль:</label><input name="userPassword" type="password" placeholder="Введите пароль"/></div>
+			</fieldset>
+			<button id="signInButton" type="submit">Войти</button><button id="signInCancelButton" type="button">Отмена</button>
+			<br/><a href="${restorepasswordPageUrl}" class="forgotPassword">Забыли пароль?</a>
+		</form>
+	</div>
+	<script type="text/javascript" src="${lightboxJsUrl}"><jsp:text/></script>
+		
+  </body>
+</html>

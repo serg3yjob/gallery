@@ -1,0 +1,13 @@
+<html>
+	<body>
+		<h3>Здравствуйте, ${user.userName}.</h3>
+		<div>
+		   Ваш email-адрес ${user.email}.
+		</div>
+		<h3>Для завершения регистрации, пожалуйста, перейдите по ссылке ниже</h3>
+	
+		<br/><br/>
+		<div>Ссылка для завершения регистрации: </div>
+		<div><a href="${registrationLink}">${registrationLink}</a></div>
+	</body>
+</html>

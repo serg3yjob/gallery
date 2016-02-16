@@ -1,0 +1,5 @@
+<div 	class="footer"
+		xmlns:jsp="http://java.sun.com/JSP/Page"
+		xmlns:spring="http://www.springframework.org/tags">
+	<span class="commonText">&#169; Галерея 2016</span>
+</div>

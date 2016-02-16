@@ -1,0 +1,44 @@
+<div
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+	<spring:url value="/pages/subscribs" var="subscribsPageUrl"/>
+	<spring:url value="/images" var="imgUrl"/>
+	<h2 class="commonText headerPage">Обновления подписок</h2>
+	<div id="sabscribes">
+		<c:choose>
+			<c:when test="${not empty imagesS}">
+				<c:forEach items="${imagesS}" var="image" varStatus="">
+					<div class="itemSubscribe">
+						<div class="headerItemSubscribe">
+							<div class="commonText"><fmt:formatDate  value="${image.dateUpload}" pattern="${patternDate}" var="dateUpload"/>${dateUpload} - </div>
+							<div class="commonText">${image.userInfo.userApp.userName}</div>
+							<a href="${subscribsPageUrl}?userId=${image.userInfo.userInfoId}">
+								<div class="commonText unsibscribeBtn">Отписаться</div>
+							</a>
+						</div>
+						<div class="contentItemSubscribe">
+							<div class="divImgItemSubscribe">
+								<a href="${imgUrl}/${image.imageId}" data-lightbox="image-1" data-title="${image.title}">
+									<img class="imgItemSubscribe" src="${imgUrl}/${image.imageId}" />
+								</a>
+							</div>
+							<div class="titleImgItemSubscribe">
+								<div class="wrapperTitleImgItemSubscribe">
+									<p class="commonText">${image.title}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<div id="wrapperEptySubscribs">
+					<p id="emptySubscribstLabel" class="commonText">У вас нет подписок</p>
+				</div>
+			</c:otherwise>
+		</c:choose>									
+	</div>
+</div>

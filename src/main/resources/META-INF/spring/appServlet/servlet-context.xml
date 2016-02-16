@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<!-- <mvc:annotation-driven conversion-service="conversionService" validator="validatorByMessageSource" /> -->
+	 <!-- <mvc:resources location="/, classpath:META-INF/web-resources/" mapping="/resources/**" /> -->
+	<mvc:default-servlet-handler/>
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /views directory 
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/views/" />
+		<beans:property name="suffix" value=".jspx" />
+	</beans:bean>-->
+	<context:annotation-config />
+	<mvc:annotation-driven />
+	<context:component-scan base-package="ru.service.gallery.controller" />
+	
+<!-- Settings by locale -->
+
+	<mvc:interceptors>
+		<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"
+		 p:paramName="lang" />
+		 <mvc:interceptor>
+		 	<mvc:mapping path="/pages/**"/>
+		 	<beans:bean class="ru.service.gallery.interceptor.BasePageInterceptor"/>
+		 </mvc:interceptor>
+		<!-- <beans:bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"
+		p:paramName="theme"/>-->
+	</mvc:interceptors>
+
+	<beans:bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		id="messageSource"
+		p:basenames="WEB-INF/i18n/validation,WEB-INF/i18n/messages"
+		p:fallbackToSystemLocale="false" 
+		p:defaultEncoding="UTF-8"/>
+		
+	<beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
+		p:validationMessageSource-ref="messageSource" >
+		</beans:bean>
+		
+	<beans:bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
+		id="localeResolver"
+		p:cookieName="locale" 
+		/> 
+
+<!-- Settings by theme -->
+
+	<!-- <beans:bean class="org.springframework.ui.context.support.ResourceBundleThemeSource"
+		id="themeSource"
+		p:basenamePrefix="propthem/theme"/>
+
+	<beans:bean class="org.springframework.web.servlet.theme.CookieThemeResolver"
+		id="themeResolver"
+		p:cookieName="theme"
+		p:defaultThemeName="standard"/> -->
+		
+<!-- Settings by tiles -->
+
+	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+		id="tilesViewResolver">
+		<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"/>
+	</beans:bean>
+
+	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
+		id="tilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/layouts/layouts.xml</beans:value>
+				<beans:value>/WEB-INF/layouts/views.xml</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+<!-- Settings by formatting-->
+
+	 <!-- <beans:bean id="conversionService" class="com.service.contact.appsupport.ApplicationConversionServiceFactoryBean" /> -->
+
+<!-- Settings by validations -->
+
+<!-- 	<beans:bean
+	   class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"
+	   p:defaultErrorView="uncaughtException">
+	   <beans:property name="exceptionMappings">
+	       <beans:props>
+	           <beans:prop key="com.service.contact.appsupport.LoginDisactivatedUser">loginDisactivatedUser</beans:prop>
+	        </beans:props>
+	    </beans:property>
+	 </beans:bean> -->
+	 <beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />	
+</beans:beans>
+
+

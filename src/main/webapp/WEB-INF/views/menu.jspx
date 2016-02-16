@@ -1,0 +1,90 @@
+<div 	id="menu"
+		class="commonText"
+		xmlns:jsp="http://java.sun.com/JSP/Page"
+		xmlns:spring="http://www.springframework.org/tags"
+		xmlns:sec="http://www.springframework.org/security/tags"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+		
+		<spring:url value="/" var="imagesPageUrl"/>
+		<spring:url value="/pages/administrate" var="administratePageUrl"/>
+		<spring:url value="/pages/albom" var="albomPageUrl"/>	
+		<spring:url value="/pages/settings" var="settingsPageUrl"/>	
+		<spring:url value="/pages/subscribs" var="subscribsPageUrl"/>
+		<spring:url value="/avatar" var="avatarMenuUrl"/>
+		<spring:url value="/pages/userprofile" var="userprofileUrl"/>	
+	<ul>
+		<c:choose>
+			<c:when test="${mapLeftMenuCSS.images}">
+				<c:set value="ativeItemMinu" var="imagesCss"/>
+			</c:when>
+			<c:otherwise>
+				<c:set value="" var="imagesCss"/>
+			</c:otherwise>
+		</c:choose>
+		<li class="${imagesCss}">
+			<a href="${imagesPageUrl}">Все изображения</a>
+		</li>
+		<sec:authorize access="isAuthenticated()">
+			<c:choose>
+				<c:when test="${mapLeftMenuCSS.albom}">
+					<c:set value="ativeItemMinu" var="albomCss"/>
+				</c:when>
+				<c:otherwise>
+					<c:set value="" var="albomCss"/>
+				</c:otherwise>
+			</c:choose>		
+			<li class="${albomCss}">
+				<a href="${albomPageUrl}">Мой альбом</a>
+			</li>
+			<c:choose>
+				<c:when test="${mapLeftMenuCSS.subscribs}">
+					<c:set value="ativeItemMinu" var="subscribsCss"/>
+				</c:when>
+				<c:otherwise>
+					<c:set value="" var="subscribsCss"/>
+				</c:otherwise>
+			</c:choose>				
+			<li class="${subscribsCss}">
+				<a href="${subscribsPageUrl}">Мои подписки</a>
+			</li>
+			<c:choose>
+				<c:when test="${mapLeftMenuCSS.settings}">
+					<c:set value="ativeItemMinu" var="settingsCss"/>
+				</c:when>
+				<c:otherwise>
+					<c:set value="" var="settingsCss"/>
+				</c:otherwise>
+			</c:choose>				
+			<li class="${settingsCss}">
+				<a href="${settingsPageUrl}">Мои настройки</a>
+			</li>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<c:choose>
+					<c:when test="${mapLeftMenuCSS.administrate}">
+						<c:set value="ativeItemMinu" var="administrateCss"/>
+					</c:when>
+					<c:otherwise>
+						<c:set value="" var="administrateCss"/>
+					</c:otherwise>
+				</c:choose>				
+				<li class="${administrateCss}">
+					<a href="${administratePageUrl}">Пользователи</a>
+				</li>
+			</sec:authorize>
+		</sec:authorize>
+	</ul>
+	<div id="usersOnline" class="commonText">
+		<h3>Пользователи:</h3>
+		<c:forEach items="${usersByLeftMenu}" var="user">
+			<c:set value="${user.userInfo.userInfoId}" var="idUserInfo"/>
+			<div class="wrapperUser">
+				<a href="${albomPageUrl}?userId=${idUserInfo}">
+					<img src="${avatarMenuUrl}/${idUserInfo}" title="Перейти к альбому" alt="${user.userName}" />   
+				</a>                                          
+				<a href="${userprofileUrl}/${idUserInfo}" title="К профилю пользователя">
+					<span>${user.userName}</span>
+				</a>
+			</div>
+		</c:forEach>		
+	</div>
+</div>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition extends="default" name="gallery/images">
+		<put-attribute name="content" value="/WEB-INF/views/images.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/accessdenied">
+		<put-attribute name="content" value="/WEB-INF/views/accessdenied.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/administrate">
+		<put-attribute name="content" value="/WEB-INF/views/administrate.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/albom">
+		<put-attribute name="content" value="/WEB-INF/views/albom.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/changeemail">
+		<put-attribute name="content" value="/WEB-INF/views/changeemail.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/changepassword">
+		<put-attribute name="content" value="/WEB-INF/views/changepassword.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/messagesendemail">
+		<put-attribute name="content" value="/WEB-INF/views/messagesendemail.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/restorepassword">
+		<put-attribute name="content" value="/WEB-INF/views/restorepassword.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/settings">
+		<put-attribute name="content" value="/WEB-INF/views/settings.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/subscribs">
+		<put-attribute name="content" value="/WEB-INF/views/subscribs.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/successregistration">
+		<put-attribute name="content" value="/WEB-INF/views/successregistration.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/userprofile">
+		<put-attribute name="content" value="/WEB-INF/views/userprofile.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/error">
+		<put-attribute name="content" value="/WEB-INF/views/error.jspx"/>
+	</definition>	
+	<definition extends="default" name="gallery/changepasswordrestore">
+		<put-attribute name="content" value="/WEB-INF/views/changepasswordrestore.jspx"/>
+	</definition>
+	<definition extends="default" name="gallery/successrestorepassword">
+		<put-attribute name="content" value="/WEB-INF/views/successrestorepassword.jspx"/>
+	</definition>			
+</tiles-definitions>
