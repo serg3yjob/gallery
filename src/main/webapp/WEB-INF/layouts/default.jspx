@@ -31,7 +31,7 @@ version="2.0" >
 		<link rel="stylesheet" type="text/css" href="${jqueryUiThemeCssUrl}"/>
 		<spring:url value="/scripts/jquery.validate.js" var="jqueryValidateUrl"/>
 		<script type="text/javascript" src="${jqueryValidateUrl}"><jsp:text/></script>
-		<!-- lightbox подключается пере закрывающим тегом body -->
+		<!-- lightbox подключается перед закрывающим тегом body -->
 		<spring:url value="/scripts/lightbox.js" var="lightboxJsUrl"/>
 		<spring:url value="/styles/lightbox.css" var="lightboxCssUrl"/>
 		<link rel="stylesheet" type="text/css" href="${lightboxCssUrl}"/>
