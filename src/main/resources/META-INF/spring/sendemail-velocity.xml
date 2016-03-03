@@ -7,7 +7,7 @@
 		<property name="host" value="smtp.mail.ru" />
 		<property name="port" value="465" /><!-- 587 -->
 		<property name="username" value="a.sh.s_reg@mail.ru" />
-		<property name="password" value="Bd7ee2fa13" />
+		<property name="password" value="сложный" />
 		<property name="javaMailProperties">
 		   <props>
 	       	      <prop key="mail.smtp.auth">true</prop>
